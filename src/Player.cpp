@@ -9,6 +9,7 @@ Player::Player(int overworldX, int overworldY, int realityX, int realityY,
       realityY(realityY), cyberspaceX(cyberspaceX), cyberspaceY(cyberspaceY),
       name(name) {
   syncActiveCoordinates("overworld"); // Game begins on the Overworld map.
+  recalculateStats();                 // Otherwise all stats will be empty.
 }
 
 // ************* Welcome to getter/setter hell *************
