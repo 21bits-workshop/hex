@@ -22,7 +22,7 @@ void StatusDisplay::updateDisplayTexture(SDL_Renderer *renderer, int tileSize,
         SDL_CreateTextureFromSurface(renderer, textSurface);
     int w, h;
     SDL_QueryTexture(displayTexture, NULL, NULL, &w, &h);
-    SDL_Rect destRect = {0,
+    SDL_Rect destRect = {Constants::TILE_SIZE,
                          (Constants::TILE_SIZE * 8 +
                           Constants::TILE_SIZE * Constants::MAP_HEIGHT +
                           Constants::TILE_SIZE),
