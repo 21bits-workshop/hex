@@ -4,7 +4,6 @@
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_ttf.h>
 #include <memory>
-#include <string>
 
 StatusDisplay::StatusDisplay(TTF_Font *font)
     : width(Constants::MAP_WIDTH), height(Constants::TILE_SIZE * 6),
