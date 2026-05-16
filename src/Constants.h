@@ -1,0 +1,17 @@
+/* Constants.h
+ * This file contains global static constants that will be used
+ * throughout the codebase, to avoid the rampant use of magic numbers.
+ */
+
+#ifndef HEX_CONST_H
+#define HEX_CONST_H
+#include <string>
+
+namespace Constants {
+static const int MAP_WIDTH = 132;
+static const int MAP_HEIGHT = 64;
+static const int TILE_SIZE = 14;
+static const char *FONT_PATH = "/usr/share/fonts/Adwaita/AdwaitaMono-Bold.ttf";
+} // namespace Constants
+  //
+#endif // HEX_CONST_H
