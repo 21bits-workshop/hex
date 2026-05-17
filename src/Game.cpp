@@ -5,6 +5,8 @@
 #include "WorldDisplay.h"
 #include <string>
 
+// TODO: Add section to display current world, world alerts, etc.
+
 Game::Game()
     : overworld(Map::generateRoomAndHallwayMap(
           Constants::MAP_WIDTH, Constants::MAP_HEIGHT, 42, 5, 15)),
@@ -64,6 +66,9 @@ void Game::handleEvents(SDL_Event &e) {
       quit = true;
     } else {
       playerController->handleInput(e);
+      messageBuffer.push(
+          "You find yourself in a half-finished proof-of-concept. It's dark, "
+          "empty, and rather boring. You doubt you will be eaten by a grue.");
     }
   }
 }
