@@ -1,17 +1,20 @@
 #ifndef PLAYER_CONTROLLER_H
 #define PLAYER_CONTROLLER_H
 
+#include "ObjectController.h"
 #include <SDL2/SDL.h>
 
 class Game;
 
-class PlayerController {
+class PlayerController : public ObjectController {
 public:
-    PlayerController(Game* game);
-    void handleInput(SDL_Event& e);
+  PlayerController(Game *game);
+  void handleInput(SDL_Event &e);
+
+  Game *getGame() const;
 
 private:
-    Game* game;
+  Game *game;
 };
 
 #endif // PLAYER_CONTROLLER_H

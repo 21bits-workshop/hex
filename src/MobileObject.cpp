@@ -35,6 +35,8 @@ void MobileObject::setConstitution(int value) { constitution = value; }
 
 int MobileObject::getSpeed() const { return speed; }
 void MobileObject::setSpeed(int value) { speed = value; }
+
+ObjectController *MobileObject::getController() { return &controller; }
 // *********** Interesting methods below here **************
 
 void MobileObject::update() { controller.update(); }

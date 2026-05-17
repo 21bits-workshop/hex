@@ -54,6 +54,10 @@ int Player::getMaxSP() const { return maxSP; }
 int Player::getMemory() const { return memory; }
 
 char *Player::getName() const { return name; }
+
+PlayerController *Player::getPlayerController() {
+  return static_cast<PlayerController *>(this->getController());
+}
 // ************ Interesting methods below ******************
 
 // TODO: Actually work out how stats should be derived.

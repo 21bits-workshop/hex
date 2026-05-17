@@ -10,6 +10,7 @@
 #define PLAYER_H
 
 #include "MobileObject.h"
+#include "PlayerController.h"
 
 class Player : public MobileObject {
 public:
@@ -57,6 +58,8 @@ public:
   int getMemory() const;
 
   char *getName() const;
+
+  PlayerController *getPlayerController();
 
   void recalculateStats();
 

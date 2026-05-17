@@ -78,3 +78,5 @@ void PlayerController::handleInput(SDL_Event &e) {
     }
   }
 }
+
+Game *PlayerController::getGame() const { return game; }

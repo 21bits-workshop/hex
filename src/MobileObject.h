@@ -39,6 +39,7 @@ public:
   int getSpeed() const;
   void setSpeed(int value);
 
+  ObjectController *getController();
   /**************************************************************************
    * For now, update() will simply call the ObjectController's
    * update method.

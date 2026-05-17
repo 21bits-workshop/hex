@@ -89,7 +89,8 @@ void Game::render(SDL_Renderer *renderer, WorldDisplay *display,
   display->draw(renderer, *currentMap, startX, startY, Constants::TILE_SIZE);
 
   messageDisplay->render(renderer, 10, 10);
-  statusDisplay->updateDisplayTexture(renderer, Constants::TILE_SIZE, player);
+  statusDisplay->updateDisplayTexture(renderer, Constants::TILE_SIZE, player,
+                                      this);
 }
 
 void Game::switchMap(const std::string &type) {

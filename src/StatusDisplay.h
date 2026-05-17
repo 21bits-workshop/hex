@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL_ttf.h>
 
+#include "Map.h"
 #include "Player.h"
 #include <memory>
 #include <utility>
@@ -11,7 +12,7 @@ class StatusDisplay {
 public:
   StatusDisplay(TTF_Font *font);
   void updateDisplayTexture(SDL_Renderer *renderer, int tileSize,
-                            std::shared_ptr<Player> player);
+                            std::shared_ptr<Player> player, Game *game);
 
 private:
   int width;

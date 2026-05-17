@@ -1,5 +1,7 @@
 #include "StatusDisplay.h"
 #include "Constants.h"
+#include "Game.h"
+#include "Map.h"
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>
@@ -15,7 +17,8 @@ StatusDisplay::StatusDisplay(TTF_Font *font)
       font(font) {}
 
 void StatusDisplay::updateDisplayTexture(SDL_Renderer *renderer, int tileSize,
-                                         std::shared_ptr<Player> player) {
+                                         std::shared_ptr<Player> player,
+                                         Game *game) {
   if (m_statusDisplayTexture) {
     SDL_DestroyTexture(m_statusDisplayTexture);
     m_statusDisplayTexture = nullptr;
@@ -127,6 +130,19 @@ void StatusDisplay::updateDisplayTexture(SDL_Renderer *renderer, int tileSize,
       Constants::TILE_SIZE, 1, 1};
   SDL_BlitSurface(flameSurface, NULL, displaySurface, &flameDestRect);
 
+  // Have to dance around a circular dependency for Game by getting the game
+  // object's current map through the PlayerController. Do I just suck at
+  // programming? Help?
+  std::string worldTypeString = "";
+  if (&game->getCurrentMap() == &game->getOverworld()) {
+    worldTypeString = "Map obtained!";
+  }
+
+  SDL_Surface *worldTypeSurface = TTF_RenderText_Blended(
+      font, worldTypeString.c_str(), {255, 255, 255, 255});
+  SDL_Rect worldTypeDestRect = {600, 32, 1, 1};
+  SDL_BlitSurface(worldTypeSurface, NULL, displaySurface, &worldTypeDestRect);
+
   SDL_Texture *displayTexture =
       SDL_CreateTextureFromSurface(renderer, displaySurface);
   int w, h;
@@ -147,5 +163,6 @@ void StatusDisplay::updateDisplayTexture(SDL_Renderer *renderer, int tileSize,
   SDL_FreeSurface(psionicDefenseSurface);
   SDL_FreeSurface(attributesSurface);
   SDL_FreeSurface(cyberDefenseSurface);
+  SDL_FreeSurface(worldTypeSurface);
   SDL_FreeSurface(displaySurface);
 }
