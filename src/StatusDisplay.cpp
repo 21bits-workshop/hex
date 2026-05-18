@@ -130,17 +130,21 @@ void StatusDisplay::updateDisplayTexture(SDL_Renderer *renderer, int tileSize,
       Constants::TILE_SIZE, 1, 1};
   SDL_BlitSurface(flameSurface, NULL, displaySurface, &flameDestRect);
 
-  // Have to dance around a circular dependency for Game by getting the game
-  // object's current map through the PlayerController. Do I just suck at
-  // programming? Help?
   std::string worldTypeString = "";
   if (&game->getCurrentMap() == &game->getOverworld()) {
-    worldTypeString = "Map obtained!";
+    worldTypeString = "Overworld";
+  } else if (&game->getCurrentMap() == &game->getReality()) {
+    worldTypeString = "Reality";
+  } else if (&game->getCurrentMap() == &game->getCyberspace()) {
+    worldTypeString = "Cyberspace";
+  } else {
+    worldTypeString = "World Error!";
   }
 
   SDL_Surface *worldTypeSurface = TTF_RenderText_Blended(
       font, worldTypeString.c_str(), {255, 255, 255, 255});
-  SDL_Rect worldTypeDestRect = {600, 32, 1, 1};
+  SDL_Rect worldTypeDestRect = {displaySurface->w / 2, displaySurface->h / 6, 1,
+                                1};
   SDL_BlitSurface(worldTypeSurface, NULL, displaySurface, &worldTypeDestRect);
 
   SDL_Texture *displayTexture =

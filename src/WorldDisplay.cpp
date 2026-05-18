@@ -25,15 +25,18 @@ void WorldDisplay::updateMapTexture(SDL_Renderer *renderer, const Map &map,
         char character = space.getDisplayCharacter();
         SDL_Color fgColor = space.getCharacterColor();
 
-        std::string text(1, character);
-        SDL_Surface *charSurface =
-            TTF_RenderText_Blended(font, text.c_str(), fgColor);
-        if (charSurface) {
-          SDL_Rect destRect = {x * tileSize + (tileSize - charSurface->w) / 2,
-                               (y * tileSize + (tileSize - charSurface->h) / 2),
-                               charSurface->w, charSurface->h};
-          SDL_BlitSurface(charSurface, nullptr, mapSurface, &destRect);
-          SDL_FreeSurface(charSurface);
+        if (space.isDiscovered()) {
+          std::string text(1, character);
+          SDL_Surface *charSurface =
+              TTF_RenderText_Blended(font, text.c_str(), fgColor);
+          if (charSurface) {
+            SDL_Rect destRect = {
+                x * tileSize + (tileSize - charSurface->w) / 2,
+                (y * tileSize + (tileSize - charSurface->h) / 2),
+                charSurface->w, charSurface->h};
+            SDL_BlitSurface(charSurface, nullptr, mapSurface, &destRect);
+            SDL_FreeSurface(charSurface);
+          }
         }
       }
     }

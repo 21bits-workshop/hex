@@ -53,6 +53,7 @@ void Game::run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font
       isDirty = false;
     }
   }
+  delete worldDisplay;
   delete messageDisplay;
   delete statusDisplay;
 }
@@ -82,12 +83,16 @@ void Game::update() {
 
 void Game::render(SDL_Renderer *renderer, WorldDisplay *display,
                   SDL_Window *window) {
+  for (int y = player->getY() - 5; y < player->getY() + 5; y++) {
+    for (int x = player->getX() - 5; x < player->getX() + 5; x++) {
+      currentMap->getSpace(x, y).setDiscovered(true);
+    }
+  }
   int w, h;
   SDL_GetWindowSize(window, &w, &h);
   int startX = (w - (Constants::MAP_WIDTH * Constants::TILE_SIZE)) / 2;
   int startY = 8 * Constants::TILE_SIZE;
   display->draw(renderer, *currentMap, startX, startY, Constants::TILE_SIZE);
-
   messageDisplay->render(renderer, 10, 10);
   statusDisplay->updateDisplayTexture(renderer, Constants::TILE_SIZE, player,
                                       this);

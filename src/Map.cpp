@@ -49,7 +49,7 @@ Map Map::createWallMap(int width, int height) {
       s.setTraversable(false);
       s.setBlocksLOS(true);
       s.setVisible(true);
-      s.setDiscovered(true);
+      s.setDiscovered(false);
     }
   }
   for (int y = 1; y < height - 1; ++y) {
@@ -79,8 +79,8 @@ Map Map::generateRoomAndHallwayMap(int width, int height, int numRooms,
       s.setDisplayCharacter('#');
       s.setTraversable(false);
       s.setBlocksLOS(true);
-      s.setVisible(true);
-      s.setDiscovered(true);
+      s.setVisible(false);
+      s.setDiscovered(false);
     }
   }
 
