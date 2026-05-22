@@ -29,7 +29,6 @@ private:
   int tileSize; // Size in pixels
   TTF_Font *font;
   SDL_Texture *m_cachedMapTexture = nullptr;
-  std::map<std::pair<char, SDL_Color>, SDL_Surface *> m_charSurfaceCache;
 };
 
 #endif // WORLD_DISP_H
