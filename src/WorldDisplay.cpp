@@ -7,7 +7,7 @@ WorldDisplay::WorldDisplay(TTF_Font *font)
     : width(Constants::MAP_WIDTH), height(int(Constants::MAP_HEIGHT)),
       tileSize(Constants::TILE_SIZE), font(font) {}
 
-void WorldDisplay::updateMapTexture(SDL_Renderer *renderer, const Map &map,
+void WorldDisplay::updateMapTexture(SDL_Renderer *renderer, Map &map,
                                     int tileSize) {
   if (m_cachedMapTexture) {
     SDL_DestroyTexture(m_cachedMapTexture);
@@ -25,25 +25,37 @@ void WorldDisplay::updateMapTexture(SDL_Renderer *renderer, const Map &map,
         char character = space.getDisplayCharacter();
         SDL_Color fgColor = space.getCharacterColor();
 
-        if (space.isDiscovered()) {
-          std::string text(1, character);
-          SDL_Surface *charSurface =
-              TTF_RenderText_Blended(font, text.c_str(), fgColor);
-          if (charSurface) {
-            SDL_Rect destRect = {
-                x * tileSize + (tileSize - charSurface->w) / 2,
-                (y * tileSize + (tileSize - charSurface->h) / 2),
-                charSurface->w, charSurface->h};
-            SDL_BlitSurface(charSurface, nullptr, mapSurface, &destRect);
-            SDL_FreeSurface(charSurface);
-          }
+        SDL_Color red = {255, 0, 0, 255}; // for testing LOS.
+
+        std::string text(1, character);
+        SDL_Surface *charSurface = nullptr;
+        if (space.isDiscovered() && space.isVisible()) {
+          charSurface = TTF_RenderText_Blended(font, text.c_str(), red);
+        } else if (space.isDiscovered()) {
+          charSurface = TTF_RenderText_Blended(font, text.c_str(), fgColor);
+        }
+        if (charSurface) {
+          SDL_Rect destRect = {x * tileSize + (tileSize - charSurface->w) / 2,
+                               (y * tileSize + (tileSize - charSurface->h) / 2),
+                               charSurface->w, charSurface->h};
+          SDL_BlitSurface(charSurface, nullptr, mapSurface, &destRect);
+          SDL_FreeSurface(charSurface);
         }
       }
     }
   }
+  clearVisible(map);
 
   m_cachedMapTexture = SDL_CreateTextureFromSurface(renderer, mapSurface);
   SDL_FreeSurface(mapSurface);
+}
+
+void WorldDisplay::clearVisible(Map &map) {
+  for (int y = 0; y < map.getHeight(); ++y) {
+    for (int x = 0; x < map.getWidth(); ++x) {
+      map.getSpace(x, y).setVisible(false);
+    }
+  }
 }
 
 void WorldDisplay::invalidate() {
@@ -53,7 +65,7 @@ void WorldDisplay::invalidate() {
   }
 }
 
-void WorldDisplay::draw(SDL_Renderer *renderer, const Map &map, int startX,
+void WorldDisplay::draw(SDL_Renderer *renderer, Map &map, int startX,
                         int startY, int tileSize) {
   if (m_cachedMapTexture == nullptr) {
     updateMapTexture(renderer, map, tileSize);

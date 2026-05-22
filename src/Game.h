@@ -39,6 +39,11 @@ public:
   void switchMap(const std::string &type);
   std::shared_ptr<Player> getPlayer();
   MessageBuffer &getMessageBuffer() { return messageBuffer; }
+  void updateFOV(int maxObstacles, int dx, int dy);
+  void castLight(unsigned int x, unsigned int y, unsigned int row,
+                 float startSlope, float endSlope, unsigned int xx,
+                 unsigned int xy, unsigned int yx, unsigned int yy);
+  void calculateFov(unsigned int x, unsigned int y);
 
 private:
   std::shared_ptr<Player> player;

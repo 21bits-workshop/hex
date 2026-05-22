@@ -29,6 +29,7 @@ public:
   // const Map& paramater in WorldDisplay.draw. TODO: Look at cleaning this up.
   Space &getSpace(int x, int y);
   const Space &getSpace(int x, int y) const;
+  Space &getSpaceLinear(int idx);
 
   void addEntity(std::shared_ptr<Entity> entity);
   void updateMobs();

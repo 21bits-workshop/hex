@@ -35,6 +35,8 @@ Space &Map::getSpace(int x, int y) { return spaces[y * width + x]; }
 
 const Space &Map::getSpace(int x, int y) const { return spaces[y * width + x]; }
 
+Space &Map::getSpaceLinear(int idx) { return spaces[idx]; }
+
 Map Map::createWallMap(int width, int height) {
   Map map(width, height);
   map.playerStartX = 3;
@@ -48,7 +50,7 @@ Map Map::createWallMap(int width, int height) {
       s.setDisplayCharacter('#');
       s.setTraversable(false);
       s.setBlocksLOS(true);
-      s.setVisible(true);
+      s.setVisible(false);
       s.setDiscovered(false);
     }
   }
@@ -59,10 +61,18 @@ Map Map::createWallMap(int width, int height) {
       s.setDisplayCharacter('.');
       s.setTraversable(true);
       s.setBlocksLOS(false);
-      s.setVisible(true);
-      s.setDiscovered(true);
+      s.setVisible(false);
+      s.setDiscovered(false);
     }
   }
+
+  Space &pillar = map.getSpace(5, 15);
+  pillar.setBlocksLOS(true);
+  pillar.setDisplayCharacter('#');
+
+  map.getSpace(5, 16).setBlocksLOS(true);
+  map.getSpace(5, 16).setDisplayCharacter('#');
+
   return map;
 }
 

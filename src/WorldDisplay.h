@@ -11,10 +11,11 @@ class WorldDisplay {
 public:
   WorldDisplay(TTF_Font *font);
 
-  void draw(SDL_Renderer *renderer, const Map &map, int startX, int startY,
+  void draw(SDL_Renderer *renderer, Map &map, int startX, int startY,
             int tileSize);
-  void updateMapTexture(SDL_Renderer *renderer, const Map &map, int tileSize);
+  void updateMapTexture(SDL_Renderer *renderer, Map &map, int tileSize);
   void invalidate();
+  void clearVisible(Map &map);
 
 private:
   int width;    // Width in Tiles

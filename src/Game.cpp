@@ -3,13 +3,15 @@
 #include "Player.h"
 #include "StatusDisplay.h"
 #include "WorldDisplay.h"
+#include <cstdlib>
 #include <string>
+#include <vector>
 
-// TODO: Add section to display current world, world alerts, etc.
+// TODO: Add section to display, world alerts, etc.
 
 Game::Game()
-    : overworld(Map::generateRoomAndHallwayMap(
-          Constants::MAP_WIDTH, Constants::MAP_HEIGHT, 42, 5, 15)),
+    : overworld(
+          Map::createWallMap(Constants::MAP_WIDTH, Constants::MAP_HEIGHT)),
       reality(Map::generateRoomAndHallwayMap(Constants::MAP_WIDTH,
                                              Constants::MAP_HEIGHT, 36, 6, 12)),
       cyberspace(Map::generateRoomAndHallwayMap(
@@ -28,8 +30,7 @@ Game::Game()
   playerController = std::make_shared<PlayerController>(this);
 }
 
-void Game::run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font
-               /* WorldDisplay &display*/) {
+void Game::run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
   worldDisplay = new WorldDisplay(font);
   messageDisplay = new MessageDisplay(font);
   statusDisplay = new StatusDisplay(font);
@@ -50,6 +51,7 @@ void Game::run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font
       render(renderer, worldDisplay, window);
 
       SDL_RenderPresent(renderer);
+      worldDisplay->clearVisible(getCurrentMap());
       isDirty = false;
     }
   }
@@ -83,11 +85,7 @@ void Game::update() {
 
 void Game::render(SDL_Renderer *renderer, WorldDisplay *display,
                   SDL_Window *window) {
-  for (int y = player->getY() - 5; y < player->getY() + 5; y++) {
-    for (int x = player->getX() - 5; x < player->getX() + 5; x++) {
-      currentMap->getSpace(x, y).setDiscovered(true);
-    }
-  }
+  calculateFov(player->getX(), player->getY());
   int w, h;
   SDL_GetWindowSize(window, &w, &h);
   int startX = (w - (Constants::MAP_WIDTH * Constants::TILE_SIZE)) / 2;
@@ -110,3 +108,76 @@ void Game::switchMap(const std::string &type) {
 
 Map &Game::getCurrentMap() { return *currentMap; }
 std::shared_ptr<Player> Game::getPlayer() { return player; }
+
+void Game::castLight(unsigned int x, unsigned int y, unsigned int row,
+                     float startSlope, float endSlope, unsigned int xx,
+                     unsigned int xy, unsigned int yx, unsigned int yy) {
+  if (startSlope < endSlope) {
+    return;
+  }
+  float nextStartSlope = startSlope;
+  for (int i = row; i <= Constants::SIGHT_RADIUS; i++) {
+    bool isBlocked = false;
+    for (int dx = -i, dy = -i; dx <= 0; dx++) {
+      float lSlope = (dx - 0.5) / (dy + 0.5);
+      float rSlope = (dx + 0.5) / (dy - 0.5);
+
+      if (startSlope < rSlope) {
+        continue;
+      } else if (endSlope > lSlope) {
+        break;
+      }
+
+      int sax = dx * xx + dy * xy;
+      int say = dx * yx + dy * yy;
+
+      if ((sax < 0 && (unsigned int)std::abs(sax) > x) ||
+          (say < 0 && (unsigned int)std::abs(say) > y)) {
+        continue;
+      }
+      unsigned int ax = x + sax;
+      unsigned int ay = y + say;
+
+      if (ax >= currentMap->getWidth() || ay >= currentMap->getHeight()) {
+        continue;
+      }
+
+      unsigned int radiusSquared =
+          Constants::SIGHT_RADIUS * Constants::SIGHT_RADIUS;
+
+      if (dx * dx + dy * dy < radiusSquared) {
+        currentMap->getSpace(ax, ay).setDiscovered(true);
+        currentMap->getSpace(ax, ay).setVisible(true);
+      }
+
+      if (isBlocked) {
+        if (currentMap->getSpace(ax, ay).blocksLOS()) {
+          nextStartSlope = rSlope;
+          continue;
+        } else {
+          isBlocked = false;
+          startSlope = nextStartSlope;
+        }
+      } else if (currentMap->getSpace(ax, ay).blocksLOS()) {
+        isBlocked = true;
+        nextStartSlope = rSlope;
+        castLight(x, y, i + 1, startSlope, lSlope, xx, xy, yx, yy);
+      }
+    }
+    if (isBlocked) {
+      break;
+    }
+  }
+}
+
+static int multipliers[4][8] = {{1, 0, 0, -1, -1, 0, 0, 1},
+                                {0, 1, -1, 0, 0, -1, 1, 0},
+                                {0, 1, 1, 0, 0, -1, -1, 0},
+                                {1, 0, 0, 1, -1, 0, 0, -1}};
+
+void Game::calculateFov(unsigned int x, unsigned int y) {
+  for (unsigned int i = 0; i < 8; i++) {
+    castLight(x, y, 1, 1.0, 0.0, multipliers[0][i], multipliers[1][i],
+              multipliers[2][i], multipliers[3][i]);
+  }
+}
