@@ -1,3 +1,8 @@
+/* PlayerController.h
+ *  The Player Controller is an ObjectController that uniquely belongs to the
+ * Player object. In place of AI routines, it has a handleInput method that will
+ * run when the game loop reaches the Player's turn.
+ */
 #ifndef PLAYER_CONTROLLER_H
 #define PLAYER_CONTROLLER_H
 

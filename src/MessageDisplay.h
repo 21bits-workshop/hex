@@ -1,3 +1,8 @@
+/* MessageDisplay.h
+ * The MessageDisplay class defines an area at the top of the screen which will
+ * display messages emitted by the game and various entities, which are all
+ * stored in a MessageBuffer.
+ */
 #ifndef MESSAGE_DISPLAY_H
 #define MESSAGE_DISPLAY_H
 

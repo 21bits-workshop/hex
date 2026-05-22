@@ -1,3 +1,9 @@
+/* WorldDisplay.h
+ * The WorldDisplay object defines an area in the center of the screen where the
+ * Player and their environment will be displayed. This contains the rendering
+ * logic for actaully getting the map onscreen.
+ */
+
 #ifndef WORLD_DISP_H
 #define WORLD_DISP_H
 

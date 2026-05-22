@@ -1,3 +1,8 @@
+/* StatusDisplay.h
+ * The StatusDisplay object defines a section out the bottom of the screen where
+ * player info such as total health, defensive values, and other
+ * moment-to-moment gameplay information will be deisplayed.
+ */
 #ifndef STATUS_DISP_H
 #define STATUS_DISP_H
 
