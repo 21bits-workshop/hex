@@ -19,7 +19,7 @@ Game::Game()
                                              Constants::MAP_HEIGHT, 36, 6, 12)),
       cyberspace(Map::generateRoomAndHallwayMap(
           Constants::MAP_WIDTH, Constants::MAP_HEIGHT, 50, 5, 13)),
-      quit(false), isDirty(true), messageBuffer(), messageDisplay(nullptr) {
+      quit(false), isDirty(true), messageBuffer() {
   player = std::make_shared<Player>(
       overworld.getPlayerStartX(), overworld.getPlayerStartY(),
       reality.getPlayerStartX(), reality.getPlayerStartY(),
@@ -78,7 +78,7 @@ void Game::handleEvents(SDL_Event &e) {
   }
 }
 
-void Game::update(SDL_Event e) {
+void Game::update(SDL_Event &e) {
   auto messages = messageBuffer.popNextSix();
   if (!messages.empty()) {
     messageDisplay->updateMessages(messages);

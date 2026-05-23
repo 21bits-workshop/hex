@@ -1,7 +1,6 @@
 #include "StatusDisplay.h"
 #include "Constants.h"
 #include "Game.h"
-#include "Map.h"
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>

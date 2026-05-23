@@ -32,7 +32,6 @@ public:
   Space &getSpaceLinear(int idx);
 
   void addEntity(std::shared_ptr<Entity> entity);
-  void updateMobs();
   const std::vector<std::shared_ptr<Entity>> &getEntities() const {
     return entities;
   }
