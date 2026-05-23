@@ -1,11 +1,13 @@
 #include "PlayerController.h"
 #include "Game.h"
 #include "Player.h"
+#include <SDL2/SDL_events.h>
+#include <iostream>
 #include <string>
 
 PlayerController::PlayerController(Game *game) : game(game) {}
 
-void PlayerController::handleInput(SDL_Event &e) {
+void PlayerController::handleInput(SDL_Event e) {
   if (e.type == SDL_KEYDOWN) {
     if (e.key.keysym.sym == SDLK_q) {
       std::string newWorldType;
@@ -77,6 +79,10 @@ void PlayerController::handleInput(SDL_Event &e) {
       }
     }
   }
+}
+
+void PlayerController::update() {
+  std::cout << "Running update..." << std::endl;
 }
 
 Game *PlayerController::getGame() const { return game; }

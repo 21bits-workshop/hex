@@ -1,9 +1,12 @@
 #include "Game.h"
 #include "Constants.h"
+#include "MobileObject.h"
 #include "Player.h"
 #include "StatusDisplay.h"
 #include "WorldDisplay.h"
+#include <SDL2/SDL_events.h>
 #include <cstdlib>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -21,7 +24,7 @@ Game::Game()
       overworld.getPlayerStartX(), overworld.getPlayerStartY(),
       reality.getPlayerStartX(), reality.getPlayerStartY(),
       cyberspace.getPlayerStartX(), cyberspace.getPlayerStartY(), '@',
-      const_cast<char *>("Takomo"));
+      const_cast<char *>("Takomo"), this);
 
   overworld.addEntity(player);
   reality.addEntity(player);
@@ -36,13 +39,13 @@ void Game::run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
   statusDisplay = new StatusDisplay(font);
 
   while (!quit) {
+
     while (SDL_PollEvent(&event) != 0) {
       handleEvents(event);
+      update(event);
       isDirty = true;
       worldDisplay->invalidate();
     }
-
-    update();
 
     if (isDirty) {
       SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -68,7 +71,6 @@ void Game::handleEvents(SDL_Event &e) {
     if (e.key.keysym.sym == SDLK_ESCAPE) {
       quit = true;
     } else {
-      playerController->handleInput(e);
       messageBuffer.push(
           "You find yourself in a half-finished proof-of-concept. It's dark, "
           "empty, and rather boring. You doubt you will be eaten by a grue.");
@@ -76,10 +78,25 @@ void Game::handleEvents(SDL_Event &e) {
   }
 }
 
-void Game::update() {
+void Game::update(SDL_Event e) {
   auto messages = messageBuffer.popNextSix();
   if (!messages.empty()) {
     messageDisplay->updateMessages(messages);
+  }
+  for (const auto &ptr : currentMap->getEntities()) {
+    std::cout << "Attempting..." << std::endl;
+    if (ptr) {
+      if (dynamic_cast<Player *>(ptr.get())) {
+        playerController->handleInput(e);
+      }
+      if (dynamic_cast<MobileObject *>(ptr.get())) {
+        MobileObject *mob = dynamic_cast<MobileObject *>(ptr.get());
+        std::cout << "Obtained " << mob << std::endl;
+        mob->update();
+        std::cout << "X: " << player->getX() << std::endl;
+        std::cout << "Y: " << player->getY() << std::endl;
+      }
+    }
   }
 }
 

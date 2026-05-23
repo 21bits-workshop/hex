@@ -8,13 +8,15 @@
 
 #include "ObjectController.h"
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_events.h>
 
 class Game;
 
 class PlayerController : public ObjectController {
 public:
   PlayerController(Game *game);
-  void handleInput(SDL_Event &e);
+  void handleInput(SDL_Event e);
+  void update() override;
 
   Game *getGame() const;
 

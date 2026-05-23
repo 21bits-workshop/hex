@@ -1,10 +1,13 @@
 #include "Player.h"
+#include "Game.h"
+#include "PlayerController.h"
 #include <cstring>
 
 Player::Player(int overworldX, int overworldY, int realityX, int realityY,
                int cyberspaceX, int cyberspaceY, char displayCharacter,
-               char *name)
-    : MobileObject(2, 2, displayCharacter, {255, 255, 255, 255} /*White*/),
+               char *name, Game *game)
+    : MobileObject(2, 2, displayCharacter, {255, 255, 255, 255} /*White*/,
+                   new PlayerController(game)),
       overworldX(overworldX), overworldY(overworldY), realityX(realityX),
       realityY(realityY), cyberspaceX(cyberspaceX), cyberspaceY(cyberspaceY),
       name(name) {

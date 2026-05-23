@@ -15,7 +15,8 @@
 class Player : public MobileObject {
 public:
   Player(int overworldX, int overworldY, int realityX, int realityY,
-         int cyberspaceX, int cyberspaceY, char displayCharacter, char *name);
+         int cyberspaceX, int cyberspaceY, char displayCharacter, char *name,
+         Game *game);
 
   int getOverworldX() const;
   void setOverworldX(int x);

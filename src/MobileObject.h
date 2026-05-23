@@ -14,7 +14,8 @@
 
 class MobileObject : public Entity {
 public:
-  MobileObject(int x, int y, char displayCharacter, SDL_Color fgColor);
+  MobileObject(int x, int y, char displayCharacter, SDL_Color fgColor,
+               ObjectController *controller);
 
   void move(int dx, int dy, int mapWidth, int mapHeight);
 

@@ -1,7 +1,8 @@
 #include "MobileObject.h"
+#include "ObjectController.h"
 
 MobileObject::MobileObject(int x, int y, char displayCharacter,
-                           SDL_Color fgColor)
+                           SDL_Color fgColor, ObjectController *controller)
     : Entity(x, y, displayCharacter, fgColor) {}
 
 void MobileObject::move(int dx, int dy, int mapWidth, int mapHeight) {
@@ -39,4 +40,4 @@ void MobileObject::setSpeed(int value) { speed = value; }
 ObjectController *MobileObject::getController() { return &controller; }
 // *********** Interesting methods below here **************
 
-void MobileObject::update() { controller.update(); }
+void MobileObject::update() { getController()->update(); }
