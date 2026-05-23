@@ -15,6 +15,9 @@ Player::Player(int overworldX, int overworldY, int realityX, int realityY,
   recalculateStats();                 // Otherwise all stats will be empty.
 }
 
+// TODO: Fix this utter nonsense by putting all player stats in an unordered
+// map.
+
 // ************* Welcome to getter/setter hell *************
 int Player::getOverworldX() const { return overworldX; }
 void Player::setOverworldX(int x) { overworldX = x; }
