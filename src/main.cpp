@@ -1,6 +1,5 @@
 #include "Constants.h"
 #include "Game.h"
-#include "WorldDisplay.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <iostream>

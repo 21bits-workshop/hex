@@ -28,14 +28,27 @@ void PlayerController::handleInput(SDL_Event e) {
     } else {
       int dx = 0;
       int dy = 0;
-      if (e.key.keysym.sym == SDLK_UP)
+      if (e.key.keysym.sym == SDLK_UP || e.key.keysym.sym == SDLK_KP_8)
         dy = -1;
-      else if (e.key.keysym.sym == SDLK_DOWN)
+      else if (e.key.keysym.sym == SDLK_DOWN || e.key.keysym.sym == SDLK_KP_2)
         dy = 1;
-      else if (e.key.keysym.sym == SDLK_LEFT)
+      else if (e.key.keysym.sym == SDLK_LEFT || e.key.keysym.sym == SDLK_KP_4)
         dx = -1;
-      else if (e.key.keysym.sym == SDLK_RIGHT)
+      else if (e.key.keysym.sym == SDLK_RIGHT || e.key.keysym.sym == SDLK_KP_6)
         dx = 1;
+      else if (e.key.keysym.sym == SDLK_KP_7) {
+        dx = -1;
+        dy = -1;
+      } else if (e.key.keysym.sym == SDLK_KP_9) {
+        dx = 1;
+        dy = -1;
+      } else if (e.key.keysym.sym == SDLK_KP_1) {
+        dx = -1;
+        dy = 1;
+      } else if (e.key.keysym.sym == SDLK_KP_3) {
+        dx = 1;
+        dy = 1;
+      }
 
       if (dx != 0 || dy != 0) {
         Map &currentMap = game->getCurrentMap();
