@@ -45,6 +45,8 @@ public:
   int getHacking() const;
   int getBartering() const;
   int getMaxHP() const;
+  int getCurrentHP() const;
+  int getFlame() const;
   int getFlameRecovery() const;
   int getCarryingCapacity() const;
 
@@ -54,8 +56,10 @@ public:
   int getSpellPower() const;
   int getCyberDefense() const;
   int getBounceResistance() const;
-  int getIntegrity() const;
+  int getMaxIntegrity() const;
+  int getCurrentIntegrity() const;
   int getMaxSP() const;
+  int getCurrentSP() const;
   int getMemory() const;
 
   char *getName() const;
@@ -96,7 +100,7 @@ private:
   int hacking, bartering;
 
   // Reality Resource Derived Stats
-  int maxHP, flameRecovery, carryingCapacity;
+  int maxHP, currentHP, flame, flameRecovery, carryingCapacity;
 
   // Cyberspace Offensive Derived Stats
   int cyberAttack, bruteForceAttack, precision, spellPower;
@@ -105,7 +109,7 @@ private:
   int cyberDefense, bounceResistance;
 
   // Cyberspace Resource Derived Stats
-  int integrity, maxSP, memory;
+  int maxIntegrity, currentIntegrity, maxSP, currentSP, memory;
 };
 
 #endif // PLAYER_H

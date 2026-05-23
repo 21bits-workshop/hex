@@ -43,6 +43,7 @@ int Player::getAvatarDeathProtection() const { return avatarDeathProtection; }
 int Player::getHacking() const { return hacking; }
 int Player::getBartering() const { return bartering; }
 int Player::getMaxHP() const { return maxHP; }
+int Player::getCurrentHP() const { return currentHP; }
 int Player::getFlameRecovery() const { return flameRecovery; }
 int Player::getCarryingCapacity() const { return carryingCapacity; }
 
@@ -52,8 +53,10 @@ int Player::getPrecision() const { return precision; }
 int Player::getSpellPower() const { return spellPower; }
 int Player::getCyberDefense() const { return cyberDefense; }
 int Player::getBounceResistance() const { return bounceResistance; }
-int Player::getIntegrity() const { return integrity; }
+int Player::getMaxIntegrity() const { return maxIntegrity; }
+int Player::getCurrentIntegrity() const { return currentIntegrity; }
 int Player::getMaxSP() const { return maxSP; }
+int Player::getCurrentSP() const { return currentSP; }
 int Player::getMemory() const { return memory; }
 
 char *Player::getName() const { return name; }
@@ -77,6 +80,8 @@ void Player::recalculateStats() {
   hacking = 10;
   bartering = 10;
   maxHP = 10;
+  currentHP = maxHP;
+  flame = 4;
   flameRecovery = 10;
   carryingCapacity = 10;
 
@@ -86,8 +91,10 @@ void Player::recalculateStats() {
   spellPower = 10;
   cyberDefense = 10;
   bounceResistance = 10;
-  integrity = 10;
+  maxIntegrity = 10;
+  currentIntegrity = maxIntegrity;
   maxSP = 10;
+  currentSP = maxSP;
   memory = 10;
 }
 

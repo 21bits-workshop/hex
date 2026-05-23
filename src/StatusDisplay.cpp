@@ -39,8 +39,8 @@ void StatusDisplay::updateDisplayTexture(SDL_Renderer *renderer, int tileSize,
       0, 1, 1};
   SDL_BlitSurface(classLevelSurface, NULL, displaySurface, &classLevelDestRect);
 
-  // TODO: Add Current HP to Player and have that reflected here.
-  std::string hpString = "HP: 10/" + std::to_string(player->getMaxHP());
+  std::string hpString = "HP: " + std::to_string(player->getCurrentHP()) + "/" +
+                         std::to_string(player->getMaxHP());
   SDL_Surface *hpSurface =
       TTF_RenderText_Blended(font, hpString.c_str(), {255, 255, 255, 255});
   SDL_Rect hpDestRect = {0, Constants::TILE_SIZE, 1, 1};
@@ -98,7 +98,8 @@ void StatusDisplay::updateDisplayTexture(SDL_Renderer *renderer, int tileSize,
                   &cyberDefenseDestRect);
 
   std::string integrityString =
-      "Integrity: 10/" + std::to_string(player->getIntegrity());
+      "Integrity: " + std::to_string(player->getCurrentIntegrity()) + "/" +
+      std::to_string(player->getMaxIntegrity());
   SDL_Surface *integritySurface = TTF_RenderText_Blended(
       font, integrityString.c_str(), {255, 255, 255, 255});
   SDL_Rect integrityDestRect = {
@@ -109,7 +110,8 @@ void StatusDisplay::updateDisplayTexture(SDL_Renderer *renderer, int tileSize,
   SDL_BlitSurface(integritySurface, NULL, displaySurface, &integrityDestRect);
 
   // TODO: Add current SP to Player and have that reflected here.
-  std::string spString = "SP: 10/" + std::to_string(player->getMaxSP());
+  std::string spString = "SP: " + std::to_string(player->getCurrentSP()) + "/" +
+                         std::to_string(player->getMaxSP());
   SDL_Surface *spSurface =
       TTF_RenderText_Blended(font, spString.c_str(), {255, 255, 255, 255});
   SDL_Rect spDestRect = {
