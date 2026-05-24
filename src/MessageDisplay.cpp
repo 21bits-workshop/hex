@@ -1,4 +1,5 @@
 #include "MessageDisplay.h"
+#include "Colors.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
@@ -12,7 +13,7 @@ void MessageDisplay::render(SDL_Renderer *renderer, int x, int y) {
   int currentY = y;
   for (const auto &msg : activeMessages) {
     SDL_Surface *surface =
-        TTF_RenderText_Blended(font, msg.c_str(), {255, 255, 255, 255});
+        TTF_RenderText_Blended(font, msg.c_str(), Colors::white);
     if (surface) {
       SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
       if (texture) {

@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "Colors.h"
 #include <algorithm>
 #include <random>
 #include <vector>
@@ -41,12 +42,10 @@ Map Map::createWallMap(int width, int height) {
   Map map(width, height);
   map.playerStartX = 3;
   map.playerStartY = 3;
-  SDL_Color gray = {128, 128, 128, 255};
-  SDL_Color darkGray = {64, 64, 64, 255};
   for (int y = 0; y < height; ++y) {
     for (int x = 0; x < width; ++x) {
       Space &s = map.getSpace(x, y);
-      s.setCharacterColor(gray);
+      s.setCharacterColor(Colors::gray);
       s.setDisplayCharacter('#');
       s.setTraversable(false);
       s.setBlocksLOS(true);
@@ -57,7 +56,7 @@ Map Map::createWallMap(int width, int height) {
   for (int y = 1; y < height - 1; ++y) {
     for (int x = 1; x < width - 1; ++x) {
       Space &s = map.getSpace(x, y);
-      s.setCharacterColor(darkGray);
+      s.setCharacterColor(Colors::darkGray);
       s.setDisplayCharacter('.');
       s.setTraversable(true);
       s.setBlocksLOS(false);

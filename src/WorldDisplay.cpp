@@ -1,4 +1,5 @@
 #include "WorldDisplay.h"
+#include "Colors.h"
 #include "Constants.h"
 #include <SDL2/SDL_ttf.h>
 #include <string>
@@ -25,12 +26,12 @@ void WorldDisplay::updateMapTexture(SDL_Renderer *renderer, Map &map,
         char character = space.getDisplayCharacter();
         SDL_Color fgColor = space.getCharacterColor();
 
-        SDL_Color red = {255, 0, 0, 255}; // for testing LOS.
-
         std::string text(1, character);
         SDL_Surface *charSurface = nullptr;
         if (space.isDiscovered() && space.isVisible()) {
-          charSurface = TTF_RenderText_Blended(font, text.c_str(), red);
+          // TODO: Replace red coloring for lighting with blending in a light
+          // color.
+          charSurface = TTF_RenderText_Blended(font, text.c_str(), Colors::red);
         } else if (space.isDiscovered()) {
           charSurface = TTF_RenderText_Blended(font, text.c_str(), fgColor);
         }
