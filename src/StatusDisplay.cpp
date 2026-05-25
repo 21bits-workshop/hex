@@ -110,7 +110,6 @@ void StatusDisplay::updateDisplayTexture(SDL_Renderer *renderer, int tileSize,
       Constants::TILE_SIZE, 1, 1};
   SDL_BlitSurface(integritySurface, NULL, displaySurface, &integrityDestRect);
 
-  // TODO: Add current SP to Player and have that reflected here.
   std::string spString = "SP: " + std::to_string(player->getCurrentSP()) + "/" +
                          std::to_string(player->getMaxSP());
   SDL_Surface *spSurface =
@@ -122,7 +121,6 @@ void StatusDisplay::updateDisplayTexture(SDL_Renderer *renderer, int tileSize,
       Constants::TILE_SIZE, 1, 1};
   SDL_BlitSurface(spSurface, NULL, displaySurface, &spDestRect);
 
-  // TODO: Add a Current Flame value to Player and have that reflected here
   SDL_Surface *flameSurface =
       TTF_RenderText_Blended(font, "Flame: Strong", Colors::white);
   SDL_Rect flameDestRect = {
