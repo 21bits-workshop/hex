@@ -32,7 +32,7 @@ public:
   Map &getOverworld() { return overworld; }
   Map &getReality() { return reality; }
   Map &getCyberspace() { return cyberspace; }
-  void handleEvents(SDL_Event &e);
+  void handleEvents(SDL_Event &e, SDL_Renderer *renderer, TTF_Font *font);
   void update(SDL_Event &e);
   void render(SDL_Renderer *renderer, WorldDisplay *display,
               SDL_Window *window);

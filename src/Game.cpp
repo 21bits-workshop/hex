@@ -2,10 +2,13 @@
 #include "Constants.h"
 #include "MobileObject.h"
 #include "Player.h"
+#include "PopupMessage.h"
 #include "StatusDisplay.h"
 #include "WorldDisplay.h"
 #include <SDL2/SDL_events.h>
+#include <SDL2/SDL_render.h>
 #include <cstdlib>
+#include <functional>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -41,7 +44,7 @@ void Game::run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
   while (!quit) {
 
     while (SDL_PollEvent(&event) != 0) {
-      handleEvents(event);
+      handleEvents(event, renderer, font);
       update(event);
       isDirty = true;
       worldDisplay->invalidate();
@@ -63,13 +66,18 @@ void Game::run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
   delete statusDisplay;
 }
 
-void Game::handleEvents(SDL_Event &e) {
+void Game::handleEvents(SDL_Event &e, SDL_Renderer *renderer, TTF_Font *font) {
   if (e.type == SDL_QUIT) {
     quit = true;
   } else if (e.type == SDL_KEYDOWN) {
     isDirty = true;
     if (e.key.keysym.sym == SDLK_ESCAPE) {
       quit = true;
+    } else if (e.key.keysym.sym == SDLK_t) {
+      std::function<void(SDL_Event & funcEvent)> popupFunc =
+          [](SDL_Event &funcEvent) {};
+      PopupMessage(15, 120, 150, 150, const_cast<char *>("Test message"),
+                   popupFunc, font, renderer);
     } else {
       messageBuffer.push(
           "You find yourself in a half-finished proof-of-concept. It's dark, "

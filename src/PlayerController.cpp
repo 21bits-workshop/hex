@@ -1,6 +1,7 @@
 #include "PlayerController.h"
 #include "Game.h"
 #include "Player.h"
+#include "PopupMessage.h"
 #include <SDL2/SDL_events.h>
 #include <iostream>
 #include <string>
