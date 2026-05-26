@@ -92,17 +92,13 @@ void Game::update(SDL_Event &e) {
     messageDisplay->updateMessages(messages);
   }
   for (const auto &ptr : currentMap->getEntities()) {
-    std::cout << "Attempting..." << std::endl;
     if (ptr) {
       if (dynamic_cast<Player *>(ptr.get())) {
         playerController->handleInput(e);
       }
       if (dynamic_cast<MobileObject *>(ptr.get())) {
         MobileObject *mob = dynamic_cast<MobileObject *>(ptr.get());
-        std::cout << "Obtained " << mob << std::endl;
         mob->update();
-        std::cout << "X: " << player->getX() << std::endl;
-        std::cout << "Y: " << player->getY() << std::endl;
       }
     }
   }
