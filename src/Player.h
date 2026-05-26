@@ -46,12 +46,6 @@ public:
 
   void recalculateStats();
 
-  /**************************************************************************
-   * syncActiveCoordinates is called each time the active map is changed,
-   * and moves the player's coordinates for the current map into the
-   * "base" coordinates provided by Entity, which are actually used to
-   * draw the character.
-   *************************************************************************/
   void syncActiveCoordinates(const char *worldType);
 
 private:
