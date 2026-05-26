@@ -40,16 +40,18 @@ void StatusDisplay::updateDisplayTexture(SDL_Renderer *renderer, int tileSize,
       0, 1, 1};
   SDL_BlitSurface(classLevelSurface, NULL, displaySurface, &classLevelDestRect);
 
-  std::string hpString = "HP: " + std::to_string(player->getCurrentHP()) + "/" +
-                         std::to_string(player->getMaxHP());
+  std::string hpString =
+      "HP: " + std::to_string(player->getResourceTotal("currentHP")) + "/" +
+      std::to_string(player->getRealityStat("maxHP"));
   SDL_Surface *hpSurface =
       TTF_RenderText_Blended(font, hpString.c_str(), Colors::white);
   SDL_Rect hpDestRect = {0, Constants::TILE_SIZE, 1, 1};
   SDL_BlitSurface(hpSurface, NULL, displaySurface, &hpDestRect);
 
   std::string physicalDefenseString =
-      "Phy.Defense: " + std::to_string(player->getPhysicalDefense()) + "[" +
-      std::to_string(player->getPhysicalProtection()) + "]";
+      "Phy.Defense: " +
+      std::to_string(player->getRealityStat("physicalDefense")) + "[" +
+      std::to_string(player->getRealityStat("physicalProtection")) + "]";
   SDL_Surface *physicalDefenseSurface = TTF_RenderText_Blended(
       font, physicalDefenseString.c_str(), Colors::white);
   SDL_Rect physicalDefenseDestRect = {0, Constants::TILE_SIZE * 2, 1, 1};
@@ -57,7 +59,8 @@ void StatusDisplay::updateDisplayTexture(SDL_Renderer *renderer, int tileSize,
                   &physicalDefenseDestRect);
 
   std::string psionicDefenseString =
-      "Psi.Defense: " + std::to_string(player->getPsionicDefense());
+      "Psi.Defense: " +
+      std::to_string(player->getRealityStat("psionicDefense"));
   SDL_Surface *psionicDefenseSurface =
       TTF_RenderText_Blended(font, psionicDefenseString.c_str(), Colors::white);
   SDL_Rect psionicDefenseDestRect = {
@@ -86,7 +89,8 @@ void StatusDisplay::updateDisplayTexture(SDL_Renderer *renderer, int tileSize,
   SDL_BlitSurface(attributesSurface, NULL, displaySurface, &attributesDestRect);
 
   std::string cyberDefenseString =
-      "Cyb.Defense " + std::to_string(player->getCyberDefense());
+      "Cyb.Defense " +
+      std::to_string(player->getCyberspaceStat("cyberDefense"));
   SDL_Surface *cyberDefenseSurface =
       TTF_RenderText_Blended(font, cyberDefenseString.c_str(), Colors::white);
   SDL_Rect cyberDefenseDestRect = {
@@ -99,8 +103,9 @@ void StatusDisplay::updateDisplayTexture(SDL_Renderer *renderer, int tileSize,
                   &cyberDefenseDestRect);
 
   std::string integrityString =
-      "Integrity: " + std::to_string(player->getCurrentIntegrity()) + "/" +
-      std::to_string(player->getMaxIntegrity());
+      "Integrity: " +
+      std::to_string(player->getResourceTotal("currentIntegrity")) + "/" +
+      std::to_string(player->getCyberspaceStat("maxIntegrity"));
   SDL_Surface *integritySurface =
       TTF_RenderText_Blended(font, integrityString.c_str(), Colors::white);
   SDL_Rect integrityDestRect = {
@@ -110,8 +115,9 @@ void StatusDisplay::updateDisplayTexture(SDL_Renderer *renderer, int tileSize,
       Constants::TILE_SIZE, 1, 1};
   SDL_BlitSurface(integritySurface, NULL, displaySurface, &integrityDestRect);
 
-  std::string spString = "SP: " + std::to_string(player->getCurrentSP()) + "/" +
-                         std::to_string(player->getMaxSP());
+  std::string spString =
+      "SP: " + std::to_string(player->getResourceTotal("currentSP")) + "/" +
+      std::to_string(player->getCyberspaceStat("maxSP"));
   SDL_Surface *spSurface =
       TTF_RenderText_Blended(font, spString.c_str(), Colors::white);
   SDL_Rect spDestRect = {

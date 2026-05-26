@@ -3,6 +3,8 @@
 #include "Game.h"
 #include "PlayerController.h"
 #include <cstring>
+#include <string>
+#include <unordered_map>
 
 Player::Player(int overworldX, int overworldY, int realityX, int realityY,
                int cyberspaceX, int cyberspaceY, char displayCharacter,
@@ -35,33 +37,17 @@ void Player::setCyberspaceX(int x) { cyberspaceX = x; }
 int Player::getCyberspaceY() const { return cyberspaceY; }
 void Player::setCyberspaceY(int y) { cyberspaceY = y; }
 
-int Player::getMeleeAttack() const { return meleeAttack; }
-int Player::getPsionicAttack() const { return psionicAttack; }
-int Player::getRangedAttack() const { return rangedAttack; }
-int Player::getAccuracy() const { return accuracy; }
-int Player::getPhysicalDefense() const { return physicalDefense; }
-int Player::getPhysicalProtection() const { return physicalProtection; }
-int Player::getPsionicDefense() const { return psionicDefense; }
-int Player::getBounceDamageProtection() const { return bounceDamageProtection; }
-int Player::getAvatarDeathProtection() const { return avatarDeathProtection; }
-int Player::getHacking() const { return hacking; }
-int Player::getBartering() const { return bartering; }
-int Player::getMaxHP() const { return maxHP; }
-int Player::getCurrentHP() const { return currentHP; }
-int Player::getFlameRecovery() const { return flameRecovery; }
-int Player::getCarryingCapacity() const { return carryingCapacity; }
+int Player::getResourceTotal(std::string id) const {
+  return resourceTotals.at(id);
+}
 
-int Player::getCyberAttack() const { return cyberAttack; }
-int Player::getBruteForceAttack() const { return bruteForceAttack; }
-int Player::getPrecision() const { return precision; }
-int Player::getSpellPower() const { return spellPower; }
-int Player::getCyberDefense() const { return cyberDefense; }
-int Player::getBounceResistance() const { return bounceResistance; }
-int Player::getMaxIntegrity() const { return maxIntegrity; }
-int Player::getCurrentIntegrity() const { return currentIntegrity; }
-int Player::getMaxSP() const { return maxSP; }
-int Player::getCurrentSP() const { return currentSP; }
-int Player::getMemory() const { return memory; }
+int Player::getRealityStat(std::string id) const { return realityStats.at(id); }
+
+int Player::getCyberspaceStat(std::string id) const {
+  return cyberspaceStats.at(id);
+}
+
+int Player::getSkill(std::string id) const { return skills.at(id); }
 
 char *Player::getName() const { return name; }
 
@@ -72,34 +58,36 @@ PlayerController *Player::getPlayerController() {
 
 // TODO: Actually work out how stats should be derived.
 void Player::recalculateStats() {
-  meleeAttack = 10;
-  psionicAttack = 10;
-  rangedAttack = 10;
-  accuracy = 10;
-  physicalDefense = 10;
-  physicalProtection = 10;
-  psionicDefense = 10;
-  bounceDamageProtection = 10;
-  avatarDeathProtection = 10;
-  hacking = 10;
-  bartering = 10;
-  maxHP = 10;
-  currentHP = maxHP;
-  flame = 4;
-  flameRecovery = 10;
-  carryingCapacity = 10;
+  realityStats["meleeAttack"] = 10;
+  realityStats["psionicAttack"] = 10;
+  realityStats["rangedAttack"] = 10;
+  realityStats["accuracy"] = 10;
+  realityStats["physicalDefense"] = 10;
+  realityStats["physicalProtection"] = 10;
+  realityStats["psionicDefense"] = 10;
+  realityStats["bounceDamageProtection"] = 10;
+  realityStats["avatarDeathProtection"] = 10;
+  realityStats["maxHP"] = 10;
+  realityStats["flameRecovery"] = 10;
+  realityStats["carryingCapacity"] = 10;
 
-  cyberAttack = 10;
-  bruteForceAttack = 10;
-  precision = 10;
-  spellPower = 10;
-  cyberDefense = 10;
-  bounceResistance = 10;
-  maxIntegrity = 10;
-  currentIntegrity = maxIntegrity;
-  maxSP = 10;
-  currentSP = maxSP;
-  memory = 10;
+  cyberspaceStats["cyberAttack"] = 10;
+  cyberspaceStats["bruteForceAttack"] = 10;
+  cyberspaceStats["precision"] = 10;
+  cyberspaceStats["spellPower"] = 10;
+  cyberspaceStats["cyberDefense"] = 10;
+  cyberspaceStats["bounceResistance"] = 10;
+  cyberspaceStats["maxIntegrity"] = 10;
+  cyberspaceStats["maxSP"] = 10;
+  cyberspaceStats["memory"] = 10;
+
+  resourceTotals["currentHP"] = realityStats["maxHP"];
+  resourceTotals["currentSP"] = cyberspaceStats["maxSP"];
+  resourceTotals["flame"] = 4;
+  resourceTotals["currentIntegrity"] = cyberspaceStats["maxIntegrity"];
+
+  skills["hacking"] = 10;
+  skills["bartering"] = 10;
 }
 
 void Player::syncActiveCoordinates(const char *worldType) {

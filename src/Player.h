@@ -11,6 +11,8 @@
 
 #include "MobileObject.h"
 #include "PlayerController.h"
+#include <string>
+#include <unordered_map>
 
 class Player : public MobileObject {
 public:
@@ -33,34 +35,10 @@ public:
   int getCyberspaceY() const;
   void setCyberspaceY(int y);
 
-  int getMeleeAttack() const;
-  int getPsionicAttack() const;
-  int getRangedAttack() const;
-  int getAccuracy() const;
-  int getPhysicalDefense() const;
-  int getPhysicalProtection() const;
-  int getPsionicDefense() const;
-  int getBounceDamageProtection() const;
-  int getAvatarDeathProtection() const;
-  int getHacking() const;
-  int getBartering() const;
-  int getMaxHP() const;
-  int getCurrentHP() const;
-  int getFlame() const;
-  int getFlameRecovery() const;
-  int getCarryingCapacity() const;
-
-  int getCyberAttack() const;
-  int getBruteForceAttack() const;
-  int getPrecision() const;
-  int getSpellPower() const;
-  int getCyberDefense() const;
-  int getBounceResistance() const;
-  int getMaxIntegrity() const;
-  int getCurrentIntegrity() const;
-  int getMaxSP() const;
-  int getCurrentSP() const;
-  int getMemory() const;
+  int getResourceTotal(std::string id) const;
+  int getRealityStat(std::string id) const;
+  int getCyberspaceStat(std::string id) const;
+  int getSkill(std::string id) const;
 
   char *getName() const;
 
@@ -89,27 +67,10 @@ private:
   // Personal Details
   char *name;
 
-  // Reality Offensive Derived Stats
-  int meleeAttack, psionicAttack, rangedAttack, accuracy;
-
-  // Reality Defensive Derived Stats
-  int physicalDefense, physicalProtection, psionicDefense,
-      bounceDamageProtection, avatarDeathProtection;
-
-  // Reality World Derived Skills
-  int hacking, bartering;
-
-  // Reality Resource Derived Stats
-  int maxHP, currentHP, flame, flameRecovery, carryingCapacity;
-
-  // Cyberspace Offensive Derived Stats
-  int cyberAttack, bruteForceAttack, precision, spellPower;
-
-  // Cyberspace Defensive Derived Stats
-  int cyberDefense, bounceResistance;
-
-  // Cyberspace Resource Derived Stats
-  int maxIntegrity, currentIntegrity, maxSP, currentSP, memory;
+  std::unordered_map<std::string, int> resourceTotals;
+  std::unordered_map<std::string, int> realityStats;
+  std::unordered_map<std::string, int> cyberspaceStats;
+  std::unordered_map<std::string, int> skills;
 };
 
 #endif // PLAYER_H
