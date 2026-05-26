@@ -11,6 +11,7 @@ namespace Constants {
 static const int MAP_WIDTH = 132;
 static const int MAP_HEIGHT = 64;
 static const int TILE_SIZE = 14;
+//TODO: Create a local font and use that, instead of assuming the user is on my home computer :p
 static const char *FONT_PATH = "/usr/share/fonts/Adwaita/AdwaitaMono-Bold.ttf";
 
 static const int SIGHT_RADIUS =
