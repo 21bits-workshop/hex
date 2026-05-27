@@ -1,5 +1,6 @@
 #include "Map.h"
 #include "Colors.h"
+#include "Space.h"
 #include <algorithm>
 #include <random>
 #include <vector>
@@ -65,31 +66,17 @@ Map Map::createWallMap(int width, int height) {
     }
   }
 
-  Space &pillar = map.getSpace(5, 15);
-  pillar.setBlocksLOS(true);
-  pillar.setDisplayCharacter('#');
-
-  map.getSpace(5, 16).setBlocksLOS(true);
-  map.getSpace(5, 16).setDisplayCharacter('#');
-
   return map;
 }
 
 Map Map::generateRoomAndHallwayMap(int width, int height, int numRooms,
                                    int minRoomSize, int maxRoomSize) {
   Map map(width, height);
-  SDL_Color wallColor = {128, 128, 128, 255};
-  SDL_Color floorColor = {64, 64, 64, 255};
 
   for (int y = 0; y < height; ++y) {
     for (int x = 0; x < width; ++x) {
       Space &s = map.getSpace(x, y);
-      s.setCharacterColor(wallColor);
-      s.setDisplayCharacter('#');
-      s.setTraversable(false);
-      s.setBlocksLOS(true);
-      s.setVisible(false);
-      s.setDiscovered(false);
+      s = Spaces::dungeonWall;
     }
   }
 
@@ -136,10 +123,7 @@ Map Map::generateRoomAndHallwayMap(int width, int height, int numRooms,
         int maxX = std::max(startX, endX);
         for (int curX = minX; curX <= maxX; ++curX) {
           Space &s = map.getSpace(curX, startY);
-          s.setCharacterColor(floorColor);
-          s.setDisplayCharacter('.');
-          s.setTraversable(true);
-          s.setBlocksLOS(false);
+          s = Spaces::dungeonFloor;
         }
 
         // Vertical section of hallway
@@ -147,10 +131,7 @@ Map Map::generateRoomAndHallwayMap(int width, int height, int numRooms,
         int maxY = std::max(startY, endY);
         for (int curY = minY; curY <= maxY; ++curY) {
           Space &s = map.getSpace(endX, curY);
-          s.setCharacterColor(floorColor);
-          s.setDisplayCharacter('.');
-          s.setTraversable(true);
-          s.setBlocksLOS(false);
+          s = Spaces::dungeonFloor;
         }
       }
 
@@ -160,10 +141,7 @@ Map Map::generateRoomAndHallwayMap(int width, int height, int numRooms,
       for (int ry = y; ry < y + h; ++ry) {
         for (int rx = x; rx < x + w; ++rx) {
           Space &s = map.getSpace(rx, ry);
-          s.setCharacterColor(floorColor);
-          s.setDisplayCharacter('.');
-          s.setTraversable(true);
-          s.setBlocksLOS(false);
+          s = Spaces::dungeonFloor;
         }
       }
     }

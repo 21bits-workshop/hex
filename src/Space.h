@@ -8,6 +8,7 @@
 #ifndef SPACE_H
 #define SPACE_H
 
+#include "Colors.h"
 #include <SDL2/SDL.h>
 
 class Space {
@@ -42,5 +43,12 @@ private:
   bool visible;        // Can the player *currently* see this Space?
   bool discovered;     // Has the player seen this Space before?
 };
+
+namespace Spaces {
+static const Space dungeonWall =
+    Space(Colors::gray, '#', false, true, false, false);
+static const Space dungeonFloor =
+    Space(Colors::darkGray, '.', true, false, false, false);
+} // namespace Spaces
 
 #endif // SPACE_H

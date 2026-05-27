@@ -3,6 +3,9 @@
  * inline.
  */
 
+#ifndef HEX_COLORS_H
+#define HEX_COLORS_H
+
 #include <SDL2/SDL.h>
 
 namespace Colors {
@@ -11,3 +14,4 @@ static const SDL_Color darkGray = {64, 64, 64, 255};
 static const SDL_Color white = {255, 255, 255, 255};
 static const SDL_Color red = {255, 0, 0, 255};
 } // namespace Colors
+#endif
