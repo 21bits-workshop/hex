@@ -11,8 +11,6 @@
 #include <string>
 #include <vector>
 
-// TODO: Add section to display, world alerts, etc.
-
 Game::Game()
     : overworld(
           Map::createWallMap(Constants::MAP_WIDTH, Constants::MAP_HEIGHT)),
