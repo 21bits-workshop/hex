@@ -2,7 +2,7 @@
  * The Game class is a singleton that will contain everything related to game
  * state and execution. The only things that should exist outside of the Game
  * instance are: a) Structures that exist prior to the start of the game, eg.
- * main menu or title screen b) User interface elements. c) Objects used by SDL,
+ * main menu or title screen. b) Objects used by SDL,
  * and SDL initialization boilerplate.
  */
 
