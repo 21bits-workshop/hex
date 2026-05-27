@@ -14,6 +14,7 @@
 #include "MessageDisplay.h"
 #include "Player.h"
 #include "PlayerController.h"
+#include "PopupMessage.h"
 #include "StatusDisplay.h"
 #include "WorldDisplay.h"
 #include <SDL2/SDL.h>
@@ -56,6 +57,7 @@ private:
   bool quit;
   bool isDirty;
   MessageBuffer messageBuffer;
+  PopupMessage *currentPopup;
   WorldDisplay *worldDisplay;
   MessageDisplay *messageDisplay;
   StatusDisplay *statusDisplay;

@@ -2,14 +2,12 @@
 #include "Constants.h"
 #include "MobileObject.h"
 #include "Player.h"
-#include "PopupMessage.h"
 #include "StatusDisplay.h"
 #include "WorldDisplay.h"
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_render.h>
 #include <cstdlib>
 #include <functional>
-#include <iostream>
 #include <string>
 #include <vector>
 
@@ -34,6 +32,7 @@ Game::Game()
   cyberspace.addEntity(player);
   currentMap = &overworld;
   playerController = std::make_shared<PlayerController>(this);
+  currentPopup = nullptr;
 }
 
 void Game::run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
@@ -42,6 +41,12 @@ void Game::run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
   statusDisplay = new StatusDisplay(font);
 
   while (!quit) {
+
+    if (currentPopup != nullptr) {
+      currentPopup->run();
+      delete currentPopup;
+      currentPopup = nullptr;
+    }
 
     while (SDL_PollEvent(&event) != 0) {
       handleEvents(event, renderer, font);
@@ -55,7 +60,6 @@ void Game::run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
       SDL_RenderClear(renderer);
 
       render(renderer, worldDisplay, window);
-
       SDL_RenderPresent(renderer);
       worldDisplay->clearVisible(getCurrentMap());
       isDirty = false;
@@ -74,10 +78,19 @@ void Game::handleEvents(SDL_Event &e, SDL_Renderer *renderer, TTF_Font *font) {
     if (e.key.keysym.sym == SDLK_ESCAPE) {
       quit = true;
     } else if (e.key.keysym.sym == SDLK_t) {
-      std::function<void(SDL_Event & funcEvent)> popupFunc =
-          [](SDL_Event &funcEvent) {};
-      PopupMessage(15, 120, 150, 150, const_cast<char *>("Test message"),
-                   popupFunc, font, renderer);
+      currentPopup = new PopupMessage(
+          20, 20, 150, 150, const_cast<char *>("Test message..."),
+          []() {
+            SDL_Event msgEvent;
+            bool keyPressed = false;
+            while (!keyPressed) {
+              SDL_PollEvent(&msgEvent);
+              if (msgEvent.type == SDL_KEYDOWN) {
+                keyPressed = true;
+              }
+            }
+          },
+          font);
     } else {
       messageBuffer.push(
           "You find yourself in a half-finished proof-of-concept. It's dark, "
@@ -115,6 +128,9 @@ void Game::render(SDL_Renderer *renderer, WorldDisplay *display,
   messageDisplay->render(renderer, 10, 10);
   statusDisplay->updateDisplayTexture(renderer, Constants::TILE_SIZE, player,
                                       this);
+  if (currentPopup != nullptr) {
+    currentPopup->render(renderer);
+  }
 }
 
 void Game::switchMap(const std::string &type) {
