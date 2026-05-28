@@ -4,6 +4,7 @@
 Entity::Entity(int x, int y, char displayCharacter, SDL_Color fgColor)
     : x(x), y(y), displayCharacter(displayCharacter), fgColor(fgColor) {}
 
+// Getters & Setters
 int Entity::getX() const { return x; }
 int Entity::getY() const { return y; }
 char Entity::getDisplayCharacter() const { return displayCharacter; }
