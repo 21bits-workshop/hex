@@ -13,6 +13,7 @@ public:
     Entity(int x, int y, char displayCharacter, SDL_Color fgColor);
     virtual ~Entity() = default;
 
+// Getters & Setters ==============================
     int getX() const;
     int getY() const;
     char getDisplayCharacter() const;
@@ -22,6 +23,7 @@ public:
     void setY(int y);
     void setDisplayCharacter(char c);
     void setFgColor(SDL_Color color);
+// ================================================
 
 private:
     int x;
