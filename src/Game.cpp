@@ -34,18 +34,21 @@ Game::Game()
 }
 
 void Game::run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
+// Initialize game display.
   worldDisplay = new WorldDisplay(font);
   messageDisplay = new MessageDisplay(font);
   statusDisplay = new StatusDisplay(font);
 
+// Main loop
   while (!quit) {
-
+    // Handle any pending PopupMessages
     if (currentPopup != nullptr) {
       currentPopup->run();
       delete currentPopup;
       currentPopup = nullptr;
     }
 
+    // Handle input and run game turns.
     while (SDL_PollEvent(&event) != 0) {
       handleEvents(event, renderer, font);
       update(event);
@@ -53,6 +56,7 @@ void Game::run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
       worldDisplay->invalidate();
     }
 
+    // Rerender the game screen if game state is dirty.
     if (isDirty) {
       SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
       SDL_RenderClear(renderer);
@@ -62,7 +66,9 @@ void Game::run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
       worldDisplay->clearVisible(getCurrentMap());
       isDirty = false;
     }
-  }
+  } // End of main loop
+  
+  // Cleanup on game close.
   delete worldDisplay;
   delete messageDisplay;
   delete statusDisplay;
@@ -72,10 +78,12 @@ void Game::handleEvents(SDL_Event &e, SDL_Renderer *renderer, TTF_Font *font) {
   if (e.type == SDL_QUIT) {
     quit = true;
   } else if (e.type == SDL_KEYDOWN) {
-    isDirty = true;
+    // NOTE: Entity updates will also leave the game state dirty.
+    // make sure to set isDirty = true if any entities have updated, as well.
+    isDirty = true; // Every keystroke changes something, rerender whenever a key is pressed.
     if (e.key.keysym.sym == SDLK_ESCAPE) {
       quit = true;
-    } else if (e.key.keysym.sym == SDLK_t) {
+    } else if (e.key.keysym.sym == SDLK_t) { // Test code.
       currentPopup = new PopupMessage(
           20, 20, 150, 150, const_cast<char *>("Test message..."),
           []() {
@@ -110,6 +118,7 @@ void Game::update(SDL_Event &e) {
       if (dynamic_cast<MobileObject *>(ptr.get())) {
         MobileObject *mob = dynamic_cast<MobileObject *>(ptr.get());
         mob->update();
+        // TODO: Probably want to set isDirty = true here.
       }
     }
   }
