@@ -58,7 +58,7 @@ private:
   bool quit; // Has the program recieved the order to exit?
   bool isDirty; // Is the current game state dirty (i.e. needs rendering)?
   MessageBuffer messageBuffer; // Holds all game messages yet to be displayed by messageDisplay.
-  PopupMessage *currentPopup; // Points to nullptr id if no popup. Otherwise, points to the popup to be resolved.
+  PopupMessage *currentPopup; // Points to nullptr if no popup. Otherwise, points to the popup to be resolved.
   WorldDisplay *worldDisplay; // Section of the screen thad displays the environment.
   MessageDisplay *messageDisplay; // Section of the screen that displays queued messages.
   StatusDisplay *statusDisplay; // Section of the screen that displays player/world info.
