@@ -98,7 +98,7 @@ void Game::handleEvents(SDL_Event &e, SDL_Renderer *renderer, TTF_Font *font) {
           },
           font);
     } else {
-      messageBuffer.push(
+      messageBuffer.push( // Test code.
           "You find yourself in a half-finished proof-of-concept. It's dark, "
           "empty, and rather boring. You doubt you will be eaten by a grue.");
     }
