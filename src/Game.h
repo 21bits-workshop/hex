@@ -26,8 +26,6 @@
 class Game {
 public:
   Game();
-  // void run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font,
-  //          WorldDisplay &display);
   void run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font);
   Map &getCurrentMap();
   Map &getOverworld() { return overworld; }
@@ -47,20 +45,23 @@ public:
   void calculateFov(unsigned int x, unsigned int y);
 
 private:
+  // player and playerController will always be present.
+  // so keep pointers pointing directly at them for easy access.
   std::shared_ptr<Player> player;
   std::shared_ptr<PlayerController> playerController;
-  Map overworld;
-  Map reality;
-  Map cyberspace;
-  Map *currentMap;
-  SDL_Event event;
-  bool quit;
-  bool isDirty;
-  MessageBuffer messageBuffer;
-  PopupMessage *currentPopup;
-  WorldDisplay *worldDisplay;
-  MessageDisplay *messageDisplay;
-  StatusDisplay *statusDisplay;
+  
+  Map overworld; // A hard-coded overworld map. 
+  Map reality;   // The reality map the player currently occupies.
+  Map cyberspace; // The cyberspace map the player currently occupies.
+  Map *currentMap; // The map the player is currently interacting with.
+  SDL_Event event; // Holds the current keystroke.
+  bool quit; // Has the program recieved the order to exit?
+  bool isDirty; // Is the current game state dirty (i.e. needs rendering)?
+  MessageBuffer messageBuffer; // Holds all game messages yet to be displayed by messageDisplay.
+  PopupMessage *currentPopup; // Points to nullptr id if no popup. Otherwise, points to the popup to be resolved.
+  WorldDisplay *worldDisplay; // Section of the screen thad displays the environment.
+  MessageDisplay *messageDisplay; // Section of the screen that displays queued messages.
+  StatusDisplay *statusDisplay; // Section of the screen that displays player/world info.
 };
 
 #endif // GAME_H
