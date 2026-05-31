@@ -1,5 +1,4 @@
 #include "Map.h"
-#include "Colors.h"
 #include "Space.h"
 #include <algorithm>
 #include <random>
@@ -45,26 +44,16 @@ Map Map::createWallMap(int width, int height) {
   map.playerStartY = 3;
   for (int y = 0; y < height; ++y) {
     for (int x = 0; x < width; ++x) {
-      Space &s = map.getSpace(x, y);
-      s.setCharacterColor(Colors::gray);
-      s.setDisplayCharacter('#');
-      s.setTraversable(false);
-      s.setBlocksLOS(true);
-      s.setVisible(false);
-      s.setDiscovered(false);
+      map.getSpace(x, y) = Spaces::dungeonWall;
     }
   }
   for (int y = 1; y < height - 1; ++y) {
     for (int x = 1; x < width - 1; ++x) {
-      Space &s = map.getSpace(x, y);
-      s.setCharacterColor(Colors::darkGray);
-      s.setDisplayCharacter('.');
-      s.setTraversable(true);
-      s.setBlocksLOS(false);
-      s.setVisible(false);
-      s.setDiscovered(false);
+      map.getSpace(x, y) = Spaces::dungeonFloor;
     }
   }
+
+  map.getSpace(5, 7) = Spaces::dungeonWall;
 
   return map;
 }
@@ -75,8 +64,7 @@ Map Map::generateRoomAndHallwayMap(int width, int height, int numRooms,
 
   for (int y = 0; y < height; ++y) {
     for (int x = 0; x < width; ++x) {
-      Space &s = map.getSpace(x, y);
-      s = Spaces::dungeonWall;
+      map.getSpace(x, y) = Spaces::dungeonWall;
     }
   }
 
@@ -122,16 +110,14 @@ Map Map::generateRoomAndHallwayMap(int width, int height, int numRooms,
         int minX = std::min(startX, endX);
         int maxX = std::max(startX, endX);
         for (int curX = minX; curX <= maxX; ++curX) {
-          Space &s = map.getSpace(curX, startY);
-          s = Spaces::dungeonFloor;
+          map.getSpace(curX, y) = Spaces::dungeonFloor;
         }
 
         // Vertical section of hallway
         int minY = std::min(startY, endY);
         int maxY = std::max(startY, endY);
         for (int curY = minY; curY <= maxY; ++curY) {
-          Space &s = map.getSpace(endX, curY);
-          s = Spaces::dungeonFloor;
+          map.getSpace(x, curY) = Spaces::dungeonFloor;
         }
       }
 

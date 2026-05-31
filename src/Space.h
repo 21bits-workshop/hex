@@ -1,7 +1,6 @@
 /* Space.h
  * The Space class represents a single square map unit in the game
- * world - this is not to be confused with the Tile class, which represents
- * a unit of the *display*. It contains all information that would be relevant
+ * world. It contains all information that would be relevant
  * to a game entity attempting to interact with or see the Space.
  */
 
