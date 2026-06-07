@@ -29,5 +29,18 @@ static const SDL_Color mocha_teal = {148,226,213,255};
 static const SDL_Color mocha_sky = {137,220,235,255};
 static const SDL_Color mocha_saphhire = {116,199,236,255};
 static const SDL_Color mocha_blue = {137,180,250,255};
+static const SDL_Color mocha_lavender {180,190,254,255};
+static const SDL_Color mocha_textWhite = {205,214,244,255};
+static const SDL_Color mocha_subtext1 = {186,194,222,255};
+static const SDL_Color mocha_subtext0 = {166,173,200,255};
+static const SDL_Color mocha_overlay2 = {157,153,178,255};
+static const SDL_Color mocha_overlay1 = {127,133,156,255};
+static const SDL_Color mocha_overlay0 = {108,112,134,255};
+static const SDL_Color mocha_surface2 = {88,91,112,255};
+static const SDL_Color mocha_surface1 = {69,71,90,255};
+static const SDL_Color mocha_surface0 = {49,50,68,255};
+static const SDL_Color mocha_base = {30,30,46,255};
+static const SDL_Color mocha_mantle = {24,24,37,255};
+static const SDL_Color mocha_crust = {17,17,27,255};
 } // namespace Colors
 #endif //HEX_COLORS_H
