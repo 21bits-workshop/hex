@@ -4,8 +4,6 @@
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_ttf.h>
 #include <cmath>
-#include <cstdlib>
-#include <memory>
 #include <string>
 
 WorldDisplay::WorldDisplay(TTF_Font *font)
@@ -50,15 +48,16 @@ void WorldDisplay::updateMapTexture(SDL_Renderer *renderer, Map &map,
             float distance = std::hypot(x - map.getPlayer()->getX(),
                                         y - map.getPlayer()->getY());
             // TODO: Move the factors here into a nicer location.
+
+            // We want the light to fall off towards blue as it reaches the edge
+            // of the signt radius... so we slightly attenuate red with distance
+            // as well as the alpha.
             int redChannel =
-                lightColor.r / ((0.35 * (distance * distance)) + 1.0);
-            int greenChannel =
-                lightColor.g / ((0.35 * (distance * distance)) + 1.0);
-            int blueChannel =
-                lightColor.b / ((0.35 * (distance * distance)) + 1.0);
+                lightColor.r / ((0.008 * (distance * distance)) + 1.0);
+            int alpha = lightColor.a / ((0.4 * (distance * distance)) + 1.0);
             SDL_FillRect(mapSurface, &fullSpaceRect,
-                         SDL_MapRGB(mapSurface->format, redChannel,
-                                    greenChannel, blueChannel));
+                         SDL_MapRGBA(mapSurface->format, redChannel,
+                                     lightColor.g, lightColor.b, alpha));
           }
           SDL_BlitSurface(charSurface, nullptr, mapSurface, &destRect);
           SDL_FreeSurface(charSurface);
