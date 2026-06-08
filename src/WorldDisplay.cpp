@@ -1,6 +1,7 @@
 #include "WorldDisplay.h"
 #include "Colors.h"
 #include "Constants.h"
+#include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_ttf.h>
 #include <string>
 
@@ -17,7 +18,9 @@ void WorldDisplay::updateMapTexture(SDL_Renderer *renderer, Map &map,
 
   SDL_Surface *mapSurface = SDL_CreateRGBSurfaceWithFormat(
       0, width * tileSize, height * tileSize, 32, SDL_PIXELFORMAT_RGBA32);
-  SDL_FillRect(mapSurface, nullptr, SDL_MapRGB(mapSurface->format, 0, 0, 0));
+  SDL_Color bgColor = Colors::mocha_crust;
+  SDL_FillRect(mapSurface, nullptr,
+               SDL_MapRGB(mapSurface->format, bgColor.r, bgColor.g, bgColor.b));
 
   for (int y = 0; y < height; ++y) {
     for (int x = 0; x < width; ++x) {
@@ -84,8 +87,9 @@ void WorldDisplay::draw(SDL_Renderer *renderer, Map &map, int startX,
       char character = entity->getDisplayCharacter();
       SDL_Color fgColor = entity->getFgColor();
       std::string text(1, character);
-      SDL_Surface *charSurface =
-          TTF_RenderText_Shaded(font, text.c_str(), fgColor, {0, 0, 0, 0});
+      SDL_Color bgColor = Colors::mocha_crust;
+      SDL_Surface *charSurface = TTF_RenderText_Shaded(
+          font, text.c_str(), fgColor, {bgColor.r, bgColor.g, bgColor.b, 0});
       if (charSurface) {
         SDL_Rect destRect = {
             startX + ex * tileSize + (tileSize - charSurface->w) / 2,

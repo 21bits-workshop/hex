@@ -13,7 +13,7 @@ void MessageDisplay::render(SDL_Renderer *renderer, int x, int y) {
   int currentY = y;
   for (const auto &msg : activeMessages) {
     SDL_Surface *surface =
-        TTF_RenderText_Blended(font, msg.c_str(), Colors::white);
+        TTF_RenderText_Blended(font, msg.c_str(), Colors::mocha_textWhite);
     if (surface) {
       SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
       if (texture) {

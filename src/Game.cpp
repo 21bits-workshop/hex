@@ -5,6 +5,7 @@
 #include "StatusDisplay.h"
 #include "WorldDisplay.h"
 #include <SDL2/SDL_events.h>
+#include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_render.h>
 #include <cstdlib>
 #include <functional>
@@ -34,12 +35,12 @@ Game::Game()
 }
 
 void Game::run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
-// Initialize game display.
+  // Initialize game display.
   worldDisplay = new WorldDisplay(font);
   messageDisplay = new MessageDisplay(font);
   statusDisplay = new StatusDisplay(font);
 
-// Main loop
+  // Main loop
   while (!quit) {
     // Handle any pending PopupMessages
     if (currentPopup != nullptr) {
@@ -58,7 +59,10 @@ void Game::run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
 
     // Rerender the game screen if game state is dirty.
     if (isDirty) {
-      SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+      // TODO: This is very ugly! Change this to be a property of Game.
+      SDL_Color backgroundColor = Colors::mocha_crust;
+      SDL_SetRenderDrawColor(renderer, backgroundColor.r, backgroundColor.g,
+                             backgroundColor.b, backgroundColor.a);
       SDL_RenderClear(renderer);
 
       render(renderer, worldDisplay, window);
@@ -67,7 +71,7 @@ void Game::run(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
       isDirty = false;
     }
   } // End of main loop
-  
+
   // Cleanup on game close.
   delete worldDisplay;
   delete messageDisplay;
@@ -80,7 +84,8 @@ void Game::handleEvents(SDL_Event &e, SDL_Renderer *renderer, TTF_Font *font) {
   } else if (e.type == SDL_KEYDOWN) {
     // NOTE: Entity updates will also leave the game state dirty.
     // make sure to set isDirty = true if any entities have updated, as well.
-    isDirty = true; // Every keystroke changes something, rerender whenever a key is pressed.
+    isDirty = true; // Every keystroke changes something, rerender whenever a
+                    // key is pressed.
     if (e.key.keysym.sym == SDLK_ESCAPE) {
       quit = true;
     } else if (e.key.keysym.sym == SDLK_t) { // Test code.

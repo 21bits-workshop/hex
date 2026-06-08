@@ -21,7 +21,8 @@ void PopupMessage::render(SDL_Renderer *renderer) {
   SDL_SetSurfaceBlendMode(popupSurface, SDL_BLENDMODE_BLEND);
   SDL_SetSurfaceAlphaMod(popupSurface, 128);
 
-  SDL_Surface *popupText = TTF_RenderText_Blended(font, message, Colors::white);
+  SDL_Surface *popupText =
+      TTF_RenderText_Blended(font, message, Colors::mocha_textWhite);
   SDL_Rect textDestRect = {0, 0, 0, 0};
 
   SDL_Texture *popupTexture =

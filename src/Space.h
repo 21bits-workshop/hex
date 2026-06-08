@@ -45,9 +45,9 @@ private:
 
 namespace Spaces {
 static const Space dungeonWall =
-    Space(Colors::gray, '#', false, true, false, false);
+    Space(Colors::mocha_subtext0, '#', false, true, false, false);
 static const Space dungeonFloor =
-    Space(Colors::darkGray, '.', true, false, false, false);
+    Space(Colors::mocha_surface1, '.', true, false, false, false);
 } // namespace Spaces
 
 #endif // SPACE_H
