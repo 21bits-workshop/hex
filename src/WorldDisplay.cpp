@@ -3,6 +3,7 @@
 #include "Constants.h"
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_ttf.h>
+#include <cmath>
 #include <string>
 
 WorldDisplay::WorldDisplay(TTF_Font *font)
@@ -34,7 +35,7 @@ void WorldDisplay::updateMapTexture(SDL_Renderer *renderer, Map &map,
         if (space.isDiscovered() && space.isVisible()) {
           // TODO: Replace red coloring for lighting with blending in a light
           // color.
-          charSurface = TTF_RenderText_Blended(font, text.c_str(), Colors::red);
+          charSurface = TTF_RenderText_Blended(font, text.c_str(), fgColor);
         } else if (space.isDiscovered()) {
           charSurface = TTF_RenderText_Blended(font, text.c_str(), fgColor);
         }
@@ -42,6 +43,18 @@ void WorldDisplay::updateMapTexture(SDL_Renderer *renderer, Map &map,
           SDL_Rect destRect = {x * tileSize + (tileSize - charSurface->w) / 2,
                                (y * tileSize + (tileSize - charSurface->h) / 2),
                                charSurface->w, charSurface->h};
+          if (space.isVisible()) {
+            SDL_Rect fullSpaceRect = {x * tileSize, y * tileSize, tileSize,
+                                      tileSize};
+            SDL_Color lightColor = Colors::mocha_yellow;
+            int distance = std::sqrt(((x - map.getPlayer()->getX()) ^ 2) +
+                                         (y - map.getPlayer()->getY()) ^
+                                     2);
+            SDL_FillRect(mapSurface, &fullSpaceRect,
+                         SDL_MapRGB(mapSurface->format, lightColor.r / distance,
+                                    lightColor.g / distance,
+                                    lightColor.b / distance));
+          }
           SDL_BlitSurface(charSurface, nullptr, mapSurface, &destRect);
           SDL_FreeSurface(charSurface);
         }
