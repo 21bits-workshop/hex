@@ -35,8 +35,6 @@ void WorldDisplay::updateMapTexture(SDL_Renderer *renderer, Map &map,
         std::string text(1, character);
         SDL_Surface *charSurface = nullptr;
         if (space.isDiscovered() && space.isVisible()) {
-          // TODO: Replace red coloring for lighting with blending in a light
-          // color.
           charSurface = TTF_RenderText_Blended(font, text.c_str(), fgColor);
         } else if (space.isDiscovered()) {
           charSurface = TTF_RenderText_Blended(font, text.c_str(), fgColor);
@@ -49,10 +47,9 @@ void WorldDisplay::updateMapTexture(SDL_Renderer *renderer, Map &map,
             SDL_Rect fullSpaceRect = {x * tileSize, y * tileSize, tileSize,
                                       tileSize};
             SDL_Color lightColor = Colors::mocha_yellow;
-            // float distance = std::abs(x - map.getPlayer()->getX()) +
-            //                std::abs(y - map.getPlayer()->getY());
             float distance = std::hypot(x - map.getPlayer()->getX(),
                                         y - map.getPlayer()->getY());
+            // TODO: Move the factors here into a nicer location.
             int redChannel =
                 lightColor.r / ((0.35 * (distance * distance)) + 1.0);
             int greenChannel =
