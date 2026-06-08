@@ -3,6 +3,9 @@
 #include "Constants.h"
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_ttf.h>
+#include <cmath>
+#include <cstdlib>
+#include <memory>
 #include <string>
 
 WorldDisplay::WorldDisplay(TTF_Font *font)
@@ -34,7 +37,7 @@ void WorldDisplay::updateMapTexture(SDL_Renderer *renderer, Map &map,
         if (space.isDiscovered() && space.isVisible()) {
           // TODO: Replace red coloring for lighting with blending in a light
           // color.
-          charSurface = TTF_RenderText_Blended(font, text.c_str(), Colors::red);
+          charSurface = TTF_RenderText_Blended(font, text.c_str(), fgColor);
         } else if (space.isDiscovered()) {
           charSurface = TTF_RenderText_Blended(font, text.c_str(), fgColor);
         }
@@ -42,6 +45,24 @@ void WorldDisplay::updateMapTexture(SDL_Renderer *renderer, Map &map,
           SDL_Rect destRect = {x * tileSize + (tileSize - charSurface->w) / 2,
                                (y * tileSize + (tileSize - charSurface->h) / 2),
                                charSurface->w, charSurface->h};
+          if (space.isVisible()) {
+            SDL_Rect fullSpaceRect = {x * tileSize, y * tileSize, tileSize,
+                                      tileSize};
+            SDL_Color lightColor = Colors::mocha_yellow;
+            // float distance = std::abs(x - map.getPlayer()->getX()) +
+            //                std::abs(y - map.getPlayer()->getY());
+            float distance = std::hypot(x - map.getPlayer()->getX(),
+                                        y - map.getPlayer()->getY());
+            int redChannel =
+                lightColor.r / ((0.35 * (distance * distance)) + 1.0);
+            int greenChannel =
+                lightColor.g / ((0.35 * (distance * distance)) + 1.0);
+            int blueChannel =
+                lightColor.b / ((0.35 * (distance * distance)) + 1.0);
+            SDL_FillRect(mapSurface, &fullSpaceRect,
+                         SDL_MapRGB(mapSurface->format, redChannel,
+                                    greenChannel, blueChannel));
+          }
           SDL_BlitSurface(charSurface, nullptr, mapSurface, &destRect);
           SDL_FreeSurface(charSurface);
         }

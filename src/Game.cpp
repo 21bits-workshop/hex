@@ -27,8 +27,11 @@ Game::Game()
       const_cast<char *>("Takomo"), this);
 
   overworld.addEntity(player);
+  overworld.addPlayer(player);
   reality.addEntity(player);
+  reality.addPlayer(player);
   cyberspace.addEntity(player);
+  cyberspace.addPlayer(player);
   currentMap = &overworld;
   playerController = std::make_shared<PlayerController>(this);
   currentPopup = nullptr;

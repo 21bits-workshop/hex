@@ -2,6 +2,7 @@
 #include "Space.h"
 #include <algorithm>
 #include <random>
+#include <utility>
 #include <vector>
 
 struct Rect {
@@ -26,6 +27,10 @@ Map::Map(int width, int height)
 
 void Map::addEntity(std::shared_ptr<Entity> entity) {
   entities.push_back(std::move(entity));
+}
+
+void Map::addPlayer(std::shared_ptr<Player> nplayer) {
+  this->player = std::move(nplayer);
 }
 
 bool Map::isWithinBounds(int x, int y) const {

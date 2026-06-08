@@ -8,6 +8,7 @@
 
 #include "Entity.h"
 #include "MobileObject.h"
+#include "Player.h"
 #include "Space.h"
 #include <memory>
 #include <vector>
@@ -32,9 +33,13 @@ public:
   Space &getSpaceLinear(int idx);
 
   void addEntity(std::shared_ptr<Entity> entity);
+  void addPlayer(std::shared_ptr<Player> player);
+
   const std::vector<std::shared_ptr<Entity>> &getEntities() const {
     return entities;
   }
+
+  const std::shared_ptr<Player> &getPlayer() const { return player; }
 
   int getPlayerStartX() const { return playerStartX; }
   int getPlayerStartY() const { return playerStartY; }
@@ -44,6 +49,7 @@ private:
   int height;
   int playerStartX;
   int playerStartY;
+  std::shared_ptr<Player> player = nullptr;
   std::vector<Space> spaces;
   std::vector<std::shared_ptr<Entity>> entities;
 };
