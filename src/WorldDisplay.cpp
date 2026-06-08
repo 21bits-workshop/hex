@@ -4,6 +4,8 @@
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_ttf.h>
 #include <cmath>
+#include <cstdlib>
+#include <memory>
 #include <string>
 
 WorldDisplay::WorldDisplay(TTF_Font *font)
@@ -47,13 +49,19 @@ void WorldDisplay::updateMapTexture(SDL_Renderer *renderer, Map &map,
             SDL_Rect fullSpaceRect = {x * tileSize, y * tileSize, tileSize,
                                       tileSize};
             SDL_Color lightColor = Colors::mocha_yellow;
-            int distance = std::sqrt(((x - map.getPlayer()->getX()) ^ 2) +
-                                         (y - map.getPlayer()->getY()) ^
-                                     2);
+            // float distance = std::abs(x - map.getPlayer()->getX()) +
+            //                std::abs(y - map.getPlayer()->getY());
+            float distance = std::hypot(x - map.getPlayer()->getX(),
+                                        y - map.getPlayer()->getY());
+            int redChannel =
+                lightColor.r / ((0.35 * (distance * distance)) + 1.0);
+            int greenChannel =
+                lightColor.g / ((0.35 * (distance * distance)) + 1.0);
+            int blueChannel =
+                lightColor.b / ((0.35 * (distance * distance)) + 1.0);
             SDL_FillRect(mapSurface, &fullSpaceRect,
-                         SDL_MapRGB(mapSurface->format, lightColor.r / distance,
-                                    lightColor.g / distance,
-                                    lightColor.b / distance));
+                         SDL_MapRGB(mapSurface->format, redChannel,
+                                    greenChannel, blueChannel));
           }
           SDL_BlitSurface(charSurface, nullptr, mapSurface, &destRect);
           SDL_FreeSurface(charSurface);

@@ -29,7 +29,9 @@ void Map::addEntity(std::shared_ptr<Entity> entity) {
   entities.push_back(std::move(entity));
 }
 
-void Map::addPlayer(std::shared_ptr<Player> player) { player = player; }
+void Map::addPlayer(std::shared_ptr<Player> nplayer) {
+  this->player = std::move(nplayer);
+}
 
 bool Map::isWithinBounds(int x, int y) const {
   return x >= 0 && x < width && y >= 0 && y < height;
